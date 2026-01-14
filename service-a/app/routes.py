@@ -11,5 +11,5 @@ def health_check():
 @router.post("/ip")
 def get_ip(ip_address: IpAddress):
     result: Coordinate = get_coordinate_by_ip(ip_address)
-    response = send_result_to_service_b(result)
+    response = send_result_to_service_b(result, ip_address)
     return response

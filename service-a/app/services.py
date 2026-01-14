@@ -11,9 +11,18 @@ def get_coordinate_by_ip(ip_address: IpAddress):
     except requests.RequestException as e:
         return {"error": f"Failed to fetch coordinates: {str(e)}"}
 
-def send_result_to_service_b(result: Coordinate):
+def send_result_to_service_b(result: Coordinate, ip_address: IpAddress):
     try:
-        response = requests.post("http://localhost:8080/receive", json=result.model_dump())
+        payload = {
+            "coordinate": result.model_dump(),
+            "ip_address": {"ip_address": str(ip_address.ip_address)}
+        }
+        response = requests.post(
+            "http://localhost:8080/receive", 
+            json=payload,
+            proxies={"http": None, "https": None},
+            timeout=5
+        )
         return response.json()
     except requests.RequestException as e:
         return {"error": f"Failed to send result to service-b: {str(e)}"}

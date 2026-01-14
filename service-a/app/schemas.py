@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, IPvAnyAddress
 
 class IpAddress(BaseModel):
-    ip_address: str
+    ip_address: IPvAnyAddress
 
 
 class Coordinate(BaseModel):
